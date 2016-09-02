@@ -1,4 +1,4 @@
-# FacebookGroupModeration
+# Facebook Group Moderation
 A tool to help moderate Facebook groups, using Python3 and [facebook-sdk](https://github.com/mobolic/facebook-sdk)
 
 Currently, there exists a script `start.py`, which will pull up to 625 posts (25 pages, 25 posts per page) from the Facebook group of your choice, and store it in a database.
