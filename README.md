@@ -42,9 +42,15 @@ And run the post scraper:
 python start.py
 ```
 
+To run the web interface:
+```
+python interface.py
+```
+And navigate to `http://localhost:5000` in your web browser
+
 ## Roadmap
 
-At the time of writing (1 September 2016), all that exists is a script `start.py` that pulls posts and stores them in a database, and stores every time the post has been updated. This is pretty hacky, but it's baby steps towards the end goal of having a full Facebook group moderation tool eventually.
+At the time of writing (1 September 2016), all that exists is a script `start.py` that pulls posts and stores them in a database, and stores every time the post has been updated. There is also a very basic single HTML table view in `interface.py`. This is pretty hacky, but it's baby steps towards the end goal of having a full Facebook group moderation tool eventually.
 
  * Create a web interface for seeing all posts that have been pulled, sorted by created_time, or by updated_time (in Flask)
  * Allow admins of the group to log in
