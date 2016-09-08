@@ -46,7 +46,7 @@ python start.py
 
 At the time of writing (1 September 2016), all that exists is a script `start.py` that pulls posts and stores them in a database, and stores every time the post has been updated. This is pretty hacky, but it's baby steps towards the end goal of having a full Facebook group moderation tool eventually.
 
- * Create a web interface for seeing all posts that have been pulled, sorted by created_time, or by updated_time (Django?)
+ * Create a web interface for seeing all posts that have been pulled, sorted by created_time, or by updated_time (in Flask)
  * Allow admins of the group to log in
  * Admins are able to 'approve' of posts using the web interface, or flag posts
  * Pull number of comments for each post, and store in the database
