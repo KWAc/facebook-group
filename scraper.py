@@ -20,7 +20,7 @@ connection = pymysql.connect(host='localhost',
 class ScraperThread(object):
     """Will run the scraper once every half hour"""
 
-    def __init__(self, interval=30):
+    def __init__(self, interval=10):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in minutes
