@@ -12,7 +12,6 @@ connection = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 
 app = Flask(__name__)
-app.config.from_envvar('PGM_SETTINGS', silent=True)
 
 def _sql(sql, params=()):
     """NOTE: Does not commit to database, so SQL injection isn't possible"""
