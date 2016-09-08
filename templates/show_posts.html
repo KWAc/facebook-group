@@ -10,12 +10,12 @@
     </tr>
   </thead>
   <tbody>
-    {% for entry in entries %}
+    {% for post in posts %}
     <tr>
-      <td class="mdl-data-table__cell--non-numeric">{{entry.from_name}}</td>
-      <td class="mdl-data-table__cell--non-numeric">{{entry.message|safe}}</td>
-      <td class="mdl-data-table__cell--non-numeric">{{entry.date}}</td>
-      <td class="mdl-data-table__cell--non-numeric"><a href={{entry.link}}>Link</a></td>
+      <td class="mdl-data-table__cell--non-numeric">{{post.from_name}}</td>
+      <td class="mdl-data-table__cell--non-numeric">{{post.message|safe}}</td>
+      <td class="mdl-data-table__cell--non-numeric">{{post.date}}</td>
+      <td class="mdl-data-table__cell--non-numeric"><a href={{post.link}}>Link</a></td>
     </tr>
     {% endfor %}
   </tbody>
