@@ -6,7 +6,7 @@ import pymysql.cursors
 from secrets import TOKEN, GROUPID
 from secrets import DB_USER, DB_PASSWORD, DB_NAME
 
-MAX_PAGES = 25
+MAX_PAGES = 500
 
 # Connect to the database
 connection = pymysql.connect(host='localhost',
@@ -123,8 +123,6 @@ def _do_post(post):
     _sql(sql, params, False)
 
 def main():
-    # create a table, destroying any already existing one first, then populate
-    create_tables(drop=False)
     get_posts()
 
 if __name__ == "__main__":
