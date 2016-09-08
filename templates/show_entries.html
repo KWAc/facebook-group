@@ -5,6 +5,7 @@
     <tr>
       <th class="mdl-data-table__cell--non-numeric">Name</th>
       <th class="mdl-data-table__cell--non-numeric">Snippet</th>
+      <th class="mdl-data-table__cell--non-numeric">Date/Time</th>
       <th class="mdl-data-table__cell--non-numeric">Facebook</th>
     </tr>
   </thead>
@@ -13,6 +14,7 @@
     <tr>
       <td class="mdl-data-table__cell--non-numeric">{{entry.from_name}}</td>
       <td class="mdl-data-table__cell--non-numeric">{{entry.message|safe}}</td>
+      <td class="mdl-data-table__cell--non-numeric">{{entry.date}}</td>
       <td class="mdl-data-table__cell--non-numeric"><a href={{entry.link}}>Link</a></td>
     </tr>
     {% endfor %}
