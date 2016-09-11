@@ -68,7 +68,7 @@ class ScraperThread(object):
         while(pages < MAX_PAGES):
             try:
                 [self._do_post(post=post) for post in posts['data']]
-                print("{} posts saved".format(_sql("select count(*) as num from Post", (), True)[0]['num']))
+                print("{} posts saved".format(self._sql("select count(*) as num from Post", (), True)[0]['num']))
                 time.sleep(0.1)
                 print("requesting next page...")
                 posts = requests.get(posts['paging']['next']).json()
@@ -125,11 +125,11 @@ class ScraperThread(object):
     def _do_post(self, post):
         # less costly option, check that the post isn't already in the database before we make API calls
         post_id = post['id'].split("_")[1]
-        if _sql("select count(*) as num from Post where post_id=%s", (post['id'].split("_")[1]))[0]['num'] is 1:
+        if self._sql("select count(*) as num from Post where post_id=%s", (post['id'].split("_")[1]))[0]['num'] is 1:
 
             check_updated = """select updated_time from Post_Updated where post_id=%s order by updated_time desc limit 1"""
             last_updated = datetime.strptime(post['updated_time'][:-5], "%Y-%m-%dT%H:%M:%S")
-            last_updated_in_db = _sql(check_updated, post_id)
+            last_updated_in_db = self._sql(check_updated, post_id)
             if last_updated_in_db is not ():
                 last_updated_in_db = last_updated_in_db[0]['updated_time']
                 if last_updated == last_updated_in_db:
@@ -150,11 +150,11 @@ class ScraperThread(object):
             str(post_details['from']['name']).encode('utf-8'), # name
             int(post_details['from']['id']), # profile id
         )
-        _sql(sql, params, False)
+        self._sql(sql, params, False)
 
         sql = "INSERT IGNORE INTO `Post_Updated` (`post_id`, `updated_time`) VALUES (%s, %s)"
         params = (int(post_id), str(post['updated_time']))
-        _sql(sql, params, False)
+        self._sql(sql, params, False)
 
 def main():
     thread = ScraperThread()
