@@ -26,7 +26,7 @@ class ScraperThread(threading.Thread):
         :param interval: Check interval, in minutes
         """
 
-        super(ScraperThread, self).__init__()
+        threading.Thread.__init__(self)
         self.interval = interval*6
         self.graph = facebook.GraphAPI(TOKEN)
         self.group = None
