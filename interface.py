@@ -34,6 +34,6 @@ def show_posts():
     return render_template('show_posts.html', posts=posts, count=count)
 
 if __name__ == "__main__":
-    thread = ScraperThread() # run the scraper every half hour
+    thread = ScraperThread()
     thread.start()
     app.run(host="0.0.0.0")
