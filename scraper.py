@@ -17,21 +17,23 @@ connection = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 
 
-class ScraperThread(object):
+class ScraperThread(threading.Thread):
     """Will run the scraper once every half hour"""
 
-    def __init__(self, interval=10):
+    def __init__(self, interval=1):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in minutes
         """
-        self.interval = interval*60
+
+        super(ScraperThread, self).__init__()
+        self.interval = interval*6
         self.graph = facebook.GraphAPI(TOKEN)
         self.group = None
 
-        thread = threading.Thread(target=self.run, args=())
+        """thread = threading.Thread(target=self.run, args=())
         thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution
+        thread.start()                                  # Start the execution"""
 
     def update_group(self):
         if not self.group:
@@ -44,6 +46,7 @@ class ScraperThread(object):
     def run(self):
         """ Method that runs forever """
         while True:
+            print("Getting posts...")
             self.get_posts()
 
             time.sleep(self.interval)
@@ -155,9 +158,3 @@ class ScraperThread(object):
         sql = "INSERT IGNORE INTO `Post_Updated` (`post_id`, `updated_time`) VALUES (%s, %s)"
         params = (int(post_id), str(post['updated_time']))
         self._sql(sql, params, False)
-
-def main():
-    thread = ScraperThread()
-
-if __name__ == "__main__":
-    main()
