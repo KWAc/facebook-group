@@ -60,7 +60,7 @@ def start_scraper():
 if __name__ == "__main__":
     scheduler = BackgroundScheduler()
     scheduler.start()
-    scheduler.add_job(func=start_scraper, trigger=IntervalTrigger(seconds=6),id='scraper',name='Scrapes posts',replace_existing=True)
+    scheduler.add_job(func=start_scraper, trigger=IntervalTrigger(seconds=60),id='scraper',name='Scrapes posts',replace_existing=True)
 
     # shut down the scheduler when exiting the app
     atexit.register(lambda: scheduler.shutdown())
