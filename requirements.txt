@@ -1,3 +1,4 @@
 git+https://github.com/mobolic/facebook-sdk.git
 pymysql
 Flask
+apscheduler

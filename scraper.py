@@ -17,39 +17,25 @@ connection = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 
 
-class ScraperThread(threading.Thread):
+class Scraper(object):
     """Will run the scraper once every half hour"""
 
-    def __init__(self, interval=1):
-        """ Constructor
-        :type interval: int
-        :param interval: Check interval, in minutes
-        """
-
-        threading.Thread.__init__(self)
-        self.interval = interval*6
+    def __init__(self):
         self.graph = facebook.GraphAPI(TOKEN)
         self.group = None
 
-        """thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution"""
+        self.run()
 
     def update_group(self):
         if not self.group:
             try:
                 self.group = self.graph.get_object(GROUPID)
             except facebook.GraphAPIError:
-                print("Page request reached, will retry in half an hour")
                 self.group = None
 
     def run(self):
-        """ Method that runs forever """
-        while True:
-            print("Getting posts...")
-            self.get_posts()
-
-            time.sleep(self.interval)
+        print("Getting posts...")
+        self.get_posts()
 
     def get_posts(self):
         """ Pulls all posts possible from facebook, getting the following details:
