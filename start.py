@@ -44,7 +44,6 @@ def index():
 
 @app.route('/')
 def show_posts():
-    refresh()
     posts = _sql("""select from_name, SUBSTRING(message, 1, 100) as message, created_time as date, CONCAT("https://facebook.com/", group_id,"/posts/",post_id) as link
     from Post order by created_time desc limit 1000""")
     count = _sql('select count(*) as count from Post')
