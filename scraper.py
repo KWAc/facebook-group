@@ -7,7 +7,6 @@ from secrets import TOKEN, GROUPID
 from secrets import DB_USER, DB_PASSWORD, DB_NAME
 
 MAX_PAGES = 500
-last_post = False
 
 # Connect to the database
 connection = pymysql.connect(host='localhost',
@@ -24,6 +23,7 @@ class Scraper(object):
     def __init__(self):
         self.graph = facebook.GraphAPI(TOKEN)
         self.group = None
+        self.last_post = False
 
         self.run()
 
@@ -60,7 +60,9 @@ class Scraper(object):
                 [self._do_post(post=post) for post in posts['data']]
                 print("{} posts saved".format(self._sql("select count(*) as num from Post", (), True)[0]['num']))
                 time.sleep(0.1)
-                print("requesting next page...")
+
+                if self.last_post:
+                    return
                 posts = requests.get(posts['paging']['next']).json()
 
             except KeyError as e:
@@ -114,7 +116,7 @@ class Scraper(object):
 
     def _do_post(self, post):
 
-        if last_post:
+        if self.last_post:
             return
         # less costly option, check that the post isn't already in the database before we make API calls
         post_id = post['id'].split("_")[1]
@@ -127,7 +129,7 @@ class Scraper(object):
                 last_updated_in_db = last_updated_in_db[0]['updated_time']
                 if last_updated == last_updated_in_db:
                     print("Found last post since script run. Stopping...")
-                    last_post = True
+                    self.last_post = True
                     return
 
         # grab more post details
