@@ -32,12 +32,12 @@ def _sql(sql, params=()):
 
 """@app.route('/')
 def index():
-    top_posts = _sql("""select distinct from_name, count(*) as updates,
+    top_posts = _sql("select distinct from_name, count(*) as updates,
     CONCAT("https://facebook.com/", Post.group_id,"/posts/",Post.post_id) as link
     from Post, Post_Updated where Post.post_id = Post_Updated.post_id
     group by Post.post_id
     order by updates desc
-    limit 10;""")
+    limit 10;")
     return render_template('index.html', top_posts=top_posts)"""
 
 @app.route('/')
