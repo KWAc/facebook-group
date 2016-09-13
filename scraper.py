@@ -7,6 +7,7 @@ from secrets import TOKEN, GROUPID
 from secrets import DB_USER, DB_PASSWORD, DB_NAME
 
 MAX_PAGES = 500
+last_post = False
 
 # Connect to the database
 connection = pymysql.connect(host='localhost',
@@ -112,6 +113,9 @@ class Scraper(object):
             return cursor.fetchall()
 
     def _do_post(self, post):
+
+        if last_post:
+            return
         # less costly option, check that the post isn't already in the database before we make API calls
         post_id = post['id'].split("_")[1]
         if self._sql("select count(*) as num from Post where post_id=%s", (post['id'].split("_")[1]))[0]['num'] is 1:
@@ -123,7 +127,8 @@ class Scraper(object):
                 last_updated_in_db = last_updated_in_db[0]['updated_time']
                 if last_updated == last_updated_in_db:
                     print("Found last post since script run. Stopping...")
-                    exit(0)
+                    last_post = True
+                    return
 
         # grab more post details
         post_details = self.graph.get_object(id=post_id,
