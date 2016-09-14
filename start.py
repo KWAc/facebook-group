@@ -25,24 +25,25 @@ def _sql(sql, params=()):
     try:
         with connection.cursor() as cursor:
             cursor.execute(sql, params)
+            connection.commit()
+            return cursor.fetchall()
     except Exception as e:
         print("Error: {}".format(e))
 
-    connection.commit()
-
-    return cursor.fetchall()
-
-"""@app.route('/')
+@app.route('/')
 def index():
-    top_posts = _sql("select distinct from_name, count(*) as updates,
+    top_posts = _sql("""select distinct from_name, count(*) as updates,
     CONCAT("https://facebook.com/", Post.group_id,"/posts/",Post.post_id) as link
     from Post, Post_Updated where Post.post_id = Post_Updated.post_id
     group by Post.post_id
     order by updates desc
-    limit 10;")
-    return render_template('index.html', top_posts=top_posts)"""
+    limit 10;""")
+    posts = _sql("""select from_name, SUBSTRING(message, 1, 1000) as message, created_time as date, CONCAT("https://facebook.com/", group_id,"/posts/",post_id) as link
+    from Post order by created_time desc limit 20""")
+    count = _sql('select count(*) as count from Post')
+    return render_template('index.html', top_posts=top_posts, posts=posts, count=count)
 
-@app.route('/')
+@app.route('/posts')
 def show_posts():
     posts = _sql("""select from_name, SUBSTRING(message, 1, 100) as message, created_time as date, CONCAT("https://facebook.com/", group_id,"/posts/",post_id) as link
     from Post order by created_time desc limit 1000""")
