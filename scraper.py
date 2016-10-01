@@ -151,3 +151,6 @@ class Scraper(object):
         sql = "INSERT IGNORE INTO `Post_Updated` (`post_id`, `updated_time`) VALUES (%s, %s)"
         params = (int(post_id), str(post['updated_time']))
         self._sql(sql, params, False)
+
+if __name__ == "__main__":
+    scraper = Scraper()
